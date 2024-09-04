@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Presentation Template</title>
+    <link rel="icon" href="./assets/logo-T.png" type="image/x-icon">
+    <link rel="stylesheet" href="demo.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css"
+    />
+  </head>
+  <body>
+    <!-- Header Section -->
+    <header>
+      <img src="./assets/logo-T.png" alt="Demo Logo" />
+      <h1>Presentation Title</h1>
+      <button class="toggle-theme-btn" onclick="toggleTheme()">
+        <i class="fas fa-moon"></i>
+      </button>
+    </header>
+
+    <!-- Slides Container -->
+    <div class="slides-container">
+      <!-- Slide 1: Opening Slide -->
+      <div class="slide active">
+        <h2>Welcome to the Presentation</h2>
+        <p>This is the opening slide of the presentation.</p>
+      </div>
+
+      <!-- Slide 2: Image Slide -->
+      <div class="slide photo-carousel">
+        <h2>Photo Slide</h2>
+        <div class="carousel">
+          <img
+            src="./assets/Slide/instruction_1.jpg"
+            alt="Photo 1"
+            class="active"
+          />
+          <img
+            src="./assets/Slide/instruction_2.jpg"
+            alt="Photo 2"
+          />
+          <img
+            src="./assets/Slide/instruction_3.jpg"
+            alt="Photo 3"
+          />
+          <img
+            src="./assets/Slide/instruction_4.jpg"
+            alt="Photo 4"
+          />
+          <img
+            src="./assets/Slide/instruction_5.jpg"
+            alt="Photo 5"
+          />
+          <img
+            src="./assets/Slide/instruction_6.jpg"
+            alt="Photo 6"
+          />
+        </div>
+        <button class="prev">❮</button>
+        <button class="next">❯</button>
+      </div>
+
+      <!-- Slide 3: Chart Slide -->
+      <div class="slide chart-slide">
+        <h2>Chart Example</h2>
+        <canvas id="myChart"></canvas>
+      </div>
+
+      <!-- Slide 4: Code Block Slide -->
+      <div class="slide">
+        <h2>Code Block Slide</h2>
+        <pre><code>
+// Example code block
+function example() {
+    console.log('Hello, world!');
+}
+                </code></pre>
+      </div>
+
+      <!-- Slide 5: Python Code Compiler -->
+      <div class="slide">
+        <h2>Python Code Compiler</h2>
+        <textarea placeholder="Enter Python code here"></textarea>
+        <button>Run Code</button>
+      </div>
+
+      <!-- Slide 6: Closing Slide -->
+      <div class="slide">
+        <h2>Thank You!</h2>
+        <p>This is the closing slide of the presentation.</p>
+      </div>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>&copy; 2024 Demo Presentation. Contact us at info@demo.com.</footer>
+  
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+        // Initialize the chart
+        const ctx = document.getElementById("myChart").getContext("2d");
+        window.myChart = new Chart(ctx, {
+          type: "bar",
+          data: {
+            labels: ["Red", "Blue", "Yellow", "Green", "Purple", "Orange"],
+            datasets: [
+              {
+                label: "# of Votes",
+                data: [12, 19, 3, 5, 2, 3],
+                backgroundColor: [
+                  "rgba(255, 99, 132, 0.2)",
+                  "rgba(54, 162, 235, 0.2)",
+                  "rgba(255, 206, 86, 0.2)",
+                  "rgba(75, 192, 192, 0.2)",
+                  "rgba(153, 102, 255, 0.2)",
+                  "rgba(255, 159, 64, 0.2)",
+                ],
+                borderColor: [
+                  "rgba(255, 99, 132, 1)",
+                  "rgba(54, 162, 235, 1)",
+                  "rgba(255, 206, 86, 1)",
+                  "rgba(75, 192, 192, 1)",
+                  "rgba(153, 102, 255, 1)",
+                  "rgba(255, 159, 64, 1)",
+                ],
+                borderWidth: 1,
+              },
+            ],
+          },
+          options: {
+            scales: {
+              x: {
+                ticks: {
+                  color: "#333",
+                },
+              },
+              y: {
+                ticks: {
+                  color: "#333",
+                  beginAtZero: true,
+                },
+              },
+            },
+            plugins: {
+              legend: {
+                labels: {
+                  color: "#333",
+                },
+              },
+            },
+          },
+        });
+
+        // Define slide variables
+        const slides = document.querySelectorAll('.slide');
+        let currentSlideIndex = 0;
+        const totalSlides = slides.length;
+
+        const prevButton = document.querySelector('.prev');
+        const nextButton = document.querySelector('.next');
+
+        if (prevButton) {
+          prevButton.addEventListener('click', () => {
+            console.log('Previous button clicked');
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = (currentSlideIndex === 0) ? totalSlides - 1 : currentSlideIndex - 1;
+            console.log('Current slide index:', currentSlideIndex);
+            slides[currentSlideIndex].classList.add('active');
+          });
+        } else {
+          console.error('Previous button not found');
+        }
+
+        if (nextButton) {
+          nextButton.addEventListener('click', () => {
+            console.log('Next button clicked');
+            slides[currentSlideIndex].classList.remove('active');
+            currentSlideIndex = (currentSlideIndex === totalSlides - 1) ? 0 : currentSlideIndex + 1;
+            console.log('Current slide index:', currentSlideIndex);
+            slides[currentSlideIndex].classList.add('active');
+          });
+        } else {
+          console.error('Next button not found');
+        }
+      });
+
+      function toggleTheme() {
+        document.body.classList.toggle("dark-mode");
+        const themeIcon = document.querySelector(".toggle-theme-btn i");
+
+        // Update chart colors based on the current theme
+        if (document.body.classList.contains("dark-mode")) {
+          themeIcon.classList.remove("fa-moon");
+          themeIcon.classList.add("fa-sun");
+          myChart.options.plugins.legend.labels.color = "#f0f0f0";
+          myChart.options.scales.x.ticks.color = "#f0f0f0";
+          myChart.options.scales.y.ticks.color = "#f0f0f0";
+        } else {
+          themeIcon.classList.remove("fa-sun");
+          themeIcon.classList.add("fa-moon");
+          myChart.options.plugins.legend.labels.color = "#333";
+          myChart.options.scales.x.ticks.color = "#333";
+          myChart.options.scales.y.ticks.color = "#333";
+        }
+        myChart.update(); // Update the chart to reflect the new colors
+      }
+    </script>
+  </body>
+</html>
